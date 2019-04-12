@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ToDoTested</string>
+    <string name="action_settings">Settings</string>
+    <string name="please_wait">Please Wait...</string>
+    <string name="dialog_ok">Ok</string>
+    <string name="dialog_cancel">Cancel</string>
+</resources>
