@@ -42,6 +42,31 @@ class HomeReducerTest {
     }
 
     @Test
+    fun itShouldRecordTheNoteAddedInTheState(){
+        val currentState = State()
+        val note = Note("First")
+
+        val newState = reducer().reduce(currentState, Event.NoteSubmitted(note))
+
+        Assert.assertEquals(listOf<Note>(Note("First")), newState.notes)
+    }
+
+    @Test
+    fun itShouldNotAddDuplicateNote(){
+        val currentState = State(notes = listOf(Note("First")))
+        val note = Note("First")
+
+        val newState = reducer().reduce(currentState, Event.NoteSubmitted(note))
+
+        Assert.assertEquals(listOf<Note>(Note("First")), newState.notes)
+        val actionList = newState.actions.toList()
+        Assert.assertEquals(1, actionList.blockingGet().count())
+        Assert.assertTrue(actionList.blockingGet().find { action -> action.equals(Action.AddNote(note)) } == null)
+        Assert.assertTrue(actionList.blockingGet().find { action -> action.equals(Action.CloseDialog) } == null)
+        Assert.assertTrue(actionList.blockingGet().find { action -> action.equals(Action.ShowToast) } != null)
+    }
+
+    @Test
     fun itShouldCloseTheDialogOnceDialogIsCancelled(){
         val currentState = State()
 

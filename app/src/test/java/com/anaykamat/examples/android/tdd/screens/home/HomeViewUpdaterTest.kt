@@ -10,6 +10,9 @@ import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
 import com.anaykamat.examples.android.tdd.kotlin_data.state.Action
 import com.anaykamat.examples.android.tdd.kotlin_data.state.State
 import com.anaykamat.examples.android.tdd.views.HomeView
+import junit.framework.Assert
+import org.robolectric.Robolectric
+import org.robolectric.shadows.ShadowToast
 
 /**
  * Created by anay on 09/08/18.
@@ -69,5 +72,18 @@ class HomeViewUpdaterTest {
 
         Mockito.verify(mockHomeView, Mockito.times(1)).add(note)
     }
+
+    @Test
+    fun showToastShowTellTheUserThatNoteAlreadyExists(){
+
+        val mainActivity = Robolectric.setupActivity(MainActivity::class.java)
+
+        val state = State(actions = Observable.just(Action.ShowToast))
+
+        viewUpdater().update(state, mainActivity)
+
+        Assert.assertEquals("Note already exists!", ShadowToast.getTextOfLatestToast())
+    }
+
 
 }

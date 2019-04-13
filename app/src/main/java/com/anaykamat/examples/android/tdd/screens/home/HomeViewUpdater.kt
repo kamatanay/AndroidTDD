@@ -1,5 +1,6 @@
 package com.anaykamat.examples.android.tdd.screens.home
 
+import android.widget.Toast
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
@@ -27,6 +28,7 @@ class HomeViewUpdater: ViewUpdater {
                 Action.ShowCurrentScreen -> {
                     activity.updateView(state.currentScreen.buildView(activity))
                 }
+                Action.ShowToast -> Toast.makeText(activity, "Note already exists!", Toast.LENGTH_SHORT).show()
             }
         }
     }
