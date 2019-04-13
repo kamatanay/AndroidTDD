@@ -11,11 +11,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.annotation.Config
-import com.anaykamat.examples.android.tdd.BuildConfig
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
-import java.time.Instant
-import java.util.*
 
 /**
  * Created by anay on 09/08/18.
@@ -46,7 +42,7 @@ class ListViewTest {
     fun itShouldVerifyGiveColorToTextView() {
         val view = view()
         val noteText = "Do this"
-        val note = Note(noteText, Date.from(Instant.now()))
+        val note = Note(noteText)
         view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
         view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
         view.add(note)
@@ -63,7 +59,7 @@ class ListViewTest {
     fun itShouldVerifyGiveTextSizeToTextView() {
         val view = view()
         val noteText = "Do this"
-        val note = Note(noteText, Date.from(Instant.now()))
+        val note = Note(noteText)
         view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
         view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
         view.add(note)
@@ -80,7 +76,7 @@ class ListViewTest {
     fun itShouldVerifyGiveTextPaddingSetToTextView() {
         val view = view()
         val noteText = "Do this"
-        val note = Note(noteText, Date.from(Instant.now()))
+        val note = Note(noteText)
         view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
         view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
         view.add(note)
@@ -99,7 +95,7 @@ class ListViewTest {
     @Test
     fun itShouldAddAGivenNoteAsChild(){
         val noteText = "Do this"
-        val note = Note(noteText, Date.from(Instant.now()))
+        val note = Note(noteText)
 
         val view = view()
         view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))

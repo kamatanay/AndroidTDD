@@ -22,9 +22,9 @@ class ListView:RecyclerView {
     private val listItems: ArrayList<Note> = ArrayList()
 
     private class ViewHolder(private val view: View):RecyclerView.ViewHolder(view) {
-        var displayValue:String
-            get() = (view as TextView).text.toString()
-            set(value) { (view as TextView).text = value }
+        fun update(note:Note){
+            (view as TextView).text = note.note
+        }
 
     }
     private val viewAdapter = object:RecyclerView.Adapter<ViewHolder>(){
@@ -33,7 +33,7 @@ class ListView:RecyclerView {
 
         override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
             listItems[position]?.let {
-                holder?.displayValue = it.note
+                holder?.update(it)
             }
         }
 

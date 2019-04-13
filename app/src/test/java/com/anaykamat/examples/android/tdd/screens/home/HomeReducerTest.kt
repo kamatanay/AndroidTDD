@@ -4,14 +4,10 @@ import junit.framework.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
-import com.anaykamat.examples.android.tdd.BuildConfig
 import com.anaykamat.examples.android.tdd.kotlin_data.events.Event
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
 import com.anaykamat.examples.android.tdd.kotlin_data.state.Action
 import com.anaykamat.examples.android.tdd.kotlin_data.state.State
-import java.time.Instant
-import java.util.*
 
 /**
  * Created by anay on 09/08/18.
@@ -35,7 +31,7 @@ class HomeReducerTest {
     @Test
     fun itShouldCloseTheDialogAndAddNoteOnceNoteIsSubmittedFromDialog(){
         val currentState = State()
-        val note = Note("First", Date.from(Instant.now()))
+        val note = Note("First")
 
         val newState = reducer().reduce(currentState, Event.NoteSubmitted(note))
 

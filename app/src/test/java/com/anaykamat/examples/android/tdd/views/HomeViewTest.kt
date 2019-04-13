@@ -11,8 +11,6 @@ import junit.framework.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
-import com.anaykamat.examples.android.tdd.BuildConfig
 import com.anaykamat.examples.android.tdd.R
 import com.anaykamat.examples.android.tdd.MainActivity
 import org.robolectric.Robolectric
@@ -20,8 +18,6 @@ import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowDialog
 import com.anaykamat.examples.android.tdd.kotlin_data.events.HomeViewEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
-import java.time.Instant
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -97,7 +93,7 @@ class HomeViewTest {
         val view = view()
 
         val noteText = "Do this"
-        val note = Note(noteText, Date.from(Instant.now()))
+        val note = Note(noteText)
 
         view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
         view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)

@@ -5,15 +5,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
-import com.anaykamat.examples.android.tdd.BuildConfig
 import com.anaykamat.examples.android.tdd.MainActivity
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
 import com.anaykamat.examples.android.tdd.kotlin_data.state.Action
 import com.anaykamat.examples.android.tdd.kotlin_data.state.State
 import com.anaykamat.examples.android.tdd.views.HomeView
-import java.time.Instant
-import java.util.*
 
 /**
  * Created by anay on 09/08/18.
@@ -60,7 +56,7 @@ class HomeViewUpdaterTest {
     @Test
     fun addNoteShouldAddTheNoteInTheView(){
 
-        val note = Note("Hello", Date.from(Instant.now()))
+        val note = Note("Hello")
         val mockHomeView = Mockito.mock(HomeView::class.java)
 
         val mainActivity = Mockito.mock(MainActivity::class.java)

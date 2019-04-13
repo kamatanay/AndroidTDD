@@ -12,7 +12,6 @@ import com.anaykamat.examples.android.tdd.R
 import com.anaykamat.examples.android.tdd.kotlin_data.events.DialogEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.events.HomeViewEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
-import java.util.*
 
 /**
  * Created by anay on 09/08/18.
@@ -38,7 +37,7 @@ open class HomeView: LinearLayout {
 
         inputDialog.eventsObservable().subscribe { event ->
             when(event){
-                is DialogEvents.OkClicked -> events.onNext(HomeViewEvents.NoteSubmitted(Note(event.note, Date())))
+                is DialogEvents.OkClicked -> events.onNext(HomeViewEvents.NoteSubmitted(Note(event.note)))
                 is DialogEvents.CancelClicked -> events.onNext(HomeViewEvents.DialogDismissed)
             }
         }
