@@ -1,20 +1,20 @@
 package com.anaykamat.examples.android.tdd.views
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
 
 /**
  * Created by anay on 09/08/18.
  */
-class ListView:RecyclerView {
+class ListView: RecyclerView {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attributes: AttributeSet?) : super(context, attributes)
@@ -31,7 +31,7 @@ class ListView:RecyclerView {
 
         override fun getItemCount() = listItems.count()
 
-        override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             listItems[position]?.let {
                 holder?.update(it)
             }

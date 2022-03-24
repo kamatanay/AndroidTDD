@@ -1,10 +1,10 @@
 package com.anaykamat.examples.android.tdd.views
 
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.View.MeasureSpec.EXACTLY
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import junit.framework.Assert
 import org.junit.Test
 

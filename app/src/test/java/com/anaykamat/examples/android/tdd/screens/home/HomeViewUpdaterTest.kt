@@ -12,6 +12,7 @@ import com.anaykamat.examples.android.tdd.kotlin_data.state.State
 import com.anaykamat.examples.android.tdd.views.HomeView
 import junit.framework.Assert
 import org.robolectric.Robolectric
+import org.robolectric.shadows.ShadowLooper
 import org.robolectric.shadows.ShadowToast
 
 /**
@@ -35,6 +36,7 @@ class HomeViewUpdaterTest {
         val state = State(actions = Observable.just(Action.ShowDialog))
 
         viewUpdater().update(state, mainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Mockito.verify(mockHomeView, Mockito.times(1)).showDialogForNewTodo(mainActivity)
 
@@ -51,6 +53,7 @@ class HomeViewUpdaterTest {
         val state = State(actions = Observable.just(Action.CloseDialog))
 
         viewUpdater().update(state, mainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Mockito.verify(mockHomeView, Mockito.times(1)).dismissDialog()
 
@@ -69,6 +72,7 @@ class HomeViewUpdaterTest {
         val state = State(actions = Observable.just(Action.AddNote(note)))
 
         viewUpdater().update(state, mainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Mockito.verify(mockHomeView, Mockito.times(1)).add(note)
     }
@@ -81,6 +85,7 @@ class HomeViewUpdaterTest {
         val state = State(actions = Observable.just(Action.ShowToast))
 
         viewUpdater().update(state, mainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Assert.assertEquals("Note already exists!", ShadowToast.getTextOfLatestToast())
     }

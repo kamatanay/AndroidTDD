@@ -6,17 +6,18 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'jacoco'
 
-jacoco {
-    toolVersion = '0.8.0'
-}
+//jacoco {
+//    toolVersion = '0.8.0'
+//}
 
 
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-}
+//tasks.withType(Test) {
+//    jacoco.includeNoLocationClasses = true
+//}
 
 android {
-    compileSdkVersion 26
+    compileSdk 30
+    testOptions.unitTests.includeAndroidResources = true
     defaultConfig {
         applicationId "todo.android.app.example.anaykamat.com.todotested"
         minSdkVersion 21
@@ -50,7 +51,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:design:26.1.0'
@@ -58,40 +59,40 @@ dependencies {
 //    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
     def libraries = rootProject.ext.libraries
-    compile libraries.kotlin
-    compile libraries.rxJava
-    compile libraries.androidSupport
-    compile libraries.recyclerView
-    compile libraries.cardView
+    implementation libraries.kotlin
+    implementation libraries.rxJava
+    implementation libraries.androidSupport
+    implementation libraries.recyclerView
+    implementation libraries.cardView
 
     def testLibraries = rootProject.ext.testLibraries
-    testCompile testLibraries.junit
-    testCompile testLibraries.roboelectric
-    testCompile "org.mockito:mockito-core:2.+"
+    testImplementation testLibraries.junit
+    testImplementation testLibraries.roboelectric
+    testImplementation "org.mockito:mockito-core:2.+"
 
-    def acceptanceTestLibraries = rootProject.ext.acceptanceTestLibraries
-    androidTestCompile acceptanceTestLibraries.androidTestEspresso exclude group: 'com.android.support', module: 'support-annotations'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+//    def acceptanceTestLibraries = rootProject.ext.acceptanceTestLibraries
+//    androidTestCompile acceptanceTestLibraries.androidTestEspresso exclude group: 'com.android.support', module: 'support-annotations'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
-
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = [ '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/kotlin_data/**' ]
-    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
-}
+//
+//task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+//
+//    reports {
+//        xml.enabled = true
+//        html.enabled = true
+//    }
+//
+//    def fileFilter = [ '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/kotlin_data/**' ]
+//    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+//    def mainSrc = "$project.projectDir/src/main/java"
+//
+//    sourceDirectories = files([mainSrc])
+//    classDirectories = files([debugTree])
+//    executionData = fileTree(dir: project.buildDir, includes: [
+//            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+//    ])
+//}

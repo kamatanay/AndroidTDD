@@ -2,6 +2,7 @@ package com.anaykamat.examples.android.tdd.views
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.os.Looper
 import android.view.ViewGroup
 import android.widget.EditText
 import io.reactivex.Observable
@@ -15,6 +16,7 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import com.anaykamat.examples.android.tdd.MainActivity
 import com.anaykamat.examples.android.tdd.kotlin_data.events.DialogEvents
+import org.robolectric.shadows.ShadowLooper
 import java.util.concurrent.TimeUnit
 
 
@@ -27,9 +29,12 @@ class InputDialogTest {
     private fun dialog(): InputDialog {
         return InputDialog().also { dialog ->
             Robolectric.setupActivity(MainActivity::class.java).let{
-                it.fragmentManager
+                it.supportFragmentManager
             }.let{ fragmentManager ->
-                dialog.also { dialog -> dialog.show(fragmentManager,"dialog") }
+                dialog.also { dialog ->
+                    dialog.show(fragmentManager,"dialog")
+                    ShadowLooper.shadowMainLooper().runToEndOfTasks()
+                }
             }
         }
     }

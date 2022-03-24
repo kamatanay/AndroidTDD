@@ -2,7 +2,6 @@ package com.anaykamat.examples.android.tdd.views
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.support.design.widget.FloatingActionButton
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -18,6 +17,8 @@ import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowDialog
 import com.anaykamat.examples.android.tdd.kotlin_data.events.HomeViewEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.robolectric.shadows.ShadowLooper
 import java.util.concurrent.TimeUnit
 
 
@@ -110,6 +111,7 @@ class HomeViewTest {
     fun itShouldShowTheDialog(){
         val view = view()
         view.showDialogForNewTodo(view.context as MainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         val dialog = ShadowDialog.getLatestDialog()
         val title = Shadows.shadowOf(dialog as AlertDialog).title.toString()
@@ -122,6 +124,7 @@ class HomeViewTest {
     fun itShouldAllowToDismissTheDialog(){
         val view = view()
         view.showDialogForNewTodo(view.context as MainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         view.dismissDialog()
         val dialog = ShadowDialog.getLatestDialog()
@@ -132,6 +135,7 @@ class HomeViewTest {
     fun itShouldRaiseTheEventOnSubmissionOfNote(){
         val view = view()
         view.showDialogForNewTodo(view.context as MainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Observable.create<Unit> { emitter ->
             view.eventsObservable().subscribe { event ->
@@ -149,6 +153,7 @@ class HomeViewTest {
     fun itShouldRaiseTheEventOnCancellationOfNoteDialog(){
         val view = view()
         view.showDialogForNewTodo(view.context as MainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Observable.create<Unit> { emitter ->
             view.eventsObservable().subscribe { event ->

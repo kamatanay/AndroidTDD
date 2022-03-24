@@ -2,11 +2,11 @@ package com.anaykamat.examples.android.tdd.views
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.app.DialogFragment
 import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.fragment.app.DialogFragment
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import com.anaykamat.examples.android.tdd.R
@@ -15,7 +15,7 @@ import com.anaykamat.examples.android.tdd.kotlin_data.events.DialogEvents
 /**
  * Created by anay on 09/08/18.
  */
-class InputDialog:DialogFragment() {
+class InputDialog: DialogFragment() {
 
     private val events:PublishSubject<DialogEvents> = PublishSubject.create()
 

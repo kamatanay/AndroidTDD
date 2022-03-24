@@ -19,6 +19,7 @@ import com.anaykamat.examples.android.tdd.kotlin_data.state.State
 import com.anaykamat.examples.android.tdd.state.ViewUpdater
 import com.anaykamat.examples.android.tdd.BuildConfig
 import com.anaykamat.examples.android.tdd.R
+import org.robolectric.shadows.ShadowLooper
 
 /**
  * Created by anay on 10/08/18.
@@ -92,6 +93,7 @@ class MainActivityTest {
                 .visible().get()
 
         mockMainActivity.events.onNext(Event.DataLoaded)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Mockito.verify(mockMainActivity.nextScreenViewUpdater, times(1)).update(mockMainActivity.nextState, mockMainActivity)
     }

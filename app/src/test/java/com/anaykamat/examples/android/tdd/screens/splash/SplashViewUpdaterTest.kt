@@ -17,6 +17,7 @@ import org.robolectric.shadows.ShadowToast
 import com.anaykamat.examples.android.tdd.kotlin_data.events.Event
 import com.anaykamat.examples.android.tdd.screens.Screen
 import com.anaykamat.examples.android.tdd.kotlin_data.state.Action
+import org.robolectric.shadows.ShadowLooper
 import java.util.concurrent.TimeUnit
 
 
@@ -43,6 +44,7 @@ class SplashViewUpdaterTest {
                 emitter.onComplete()
             }
             viewUpdater.update(state, mainActivity())
+            ShadowLooper.shadowMainLooper().runToEndOfTasks()
         }.timeout(5, TimeUnit.SECONDS).blockingFirst()
     }
 
@@ -57,6 +59,7 @@ class SplashViewUpdaterTest {
         val state = State(currentScreen = mockScreen, actions = Observable.just(Action.ShowCurrentScreen))
 
         viewUpdater.update(state, activity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Assert.assertEquals(textView, activity.currentView())
     }
@@ -68,6 +71,7 @@ class SplashViewUpdaterTest {
         val state = State(actions = Observable.just(Action.ShowToast))
 
         viewUpdater.update(state, activity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Assert.assertEquals("Done",ShadowToast.getTextOfLatestToast())
 

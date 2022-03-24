@@ -1,9 +1,9 @@
 package com.anaykamat.examples.android.tdd
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import com.anaykamat.examples.android.tdd.kotlin_data.events.Event

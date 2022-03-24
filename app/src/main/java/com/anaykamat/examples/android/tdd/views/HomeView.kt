@@ -1,7 +1,6 @@
 package com.anaykamat.examples.android.tdd.views
 
 import android.content.Context
-import android.support.design.widget.FloatingActionButton
 import android.util.AttributeSet
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
@@ -12,6 +11,7 @@ import com.anaykamat.examples.android.tdd.R
 import com.anaykamat.examples.android.tdd.kotlin_data.events.DialogEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.events.HomeViewEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * Created by anay on 09/08/18.
@@ -49,7 +49,7 @@ open class HomeView: LinearLayout {
     }
 
     open fun showDialogForNewTodo(mainActivity: MainActivity) {
-        inputDialog.show(mainActivity.fragmentManager, "Dialog")
+        inputDialog.show(mainActivity.supportFragmentManager, "Dialog")
     }
 
     open fun dismissDialog() {

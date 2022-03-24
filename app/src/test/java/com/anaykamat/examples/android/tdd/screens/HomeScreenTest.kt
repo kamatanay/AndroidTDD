@@ -2,7 +2,6 @@ package com.anaykamat.examples.android.tdd.screens
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.support.design.widget.FloatingActionButton
 import io.reactivex.Observable
 import junit.framework.Assert
 import org.junit.Test
@@ -18,6 +17,8 @@ import com.anaykamat.examples.android.tdd.kotlin_data.events.HomeViewEvents
 import com.anaykamat.examples.android.tdd.screens.home.HomeReducer
 import com.anaykamat.examples.android.tdd.screens.home.HomeViewUpdater
 import com.anaykamat.examples.android.tdd.views.HomeView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.robolectric.shadows.ShadowLooper
 import java.util.concurrent.TimeUnit
 
 /**
@@ -45,6 +46,7 @@ class HomeScreenTest {
                 .get().let { screen().buildView(it) as HomeView }
         Assert.assertNotNull(homeView)
         homeView.showDialogForNewTodo(homeView.context as MainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
         Observable.create<HomeViewEvents.DialogDismissed>{ emitter->
             homeView.eventsObservable().subscribe {
                 emitter.onNext(it as HomeViewEvents.DialogDismissed)
@@ -64,6 +66,7 @@ class HomeScreenTest {
                 .get().let { screen().buildView(it) as HomeView }
         Assert.assertNotNull(homeView)
         homeView.showDialogForNewTodo(homeView.context as MainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
         Observable.create<HomeViewEvents.NoteSubmitted>{ emitter->
             homeView.eventsObservable().subscribe {
                 emitter.onNext(it as HomeViewEvents.NoteSubmitted)
