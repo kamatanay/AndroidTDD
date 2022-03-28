@@ -26,7 +26,7 @@ class HomeViewUpdaterTest {
     private fun viewUpdater(): HomeViewUpdater = HomeViewUpdater()
 
     @Test
-    fun showDialogShouldShowTheDialogToAddTodo(){
+    fun showDialogShouldShowTheDialogToAddTodo() {
         val mockHomeView = Mockito.mock(HomeView::class.java)
 
         val mainActivity = Mockito.mock(MainActivity::class.java)
@@ -43,7 +43,25 @@ class HomeViewUpdaterTest {
     }
 
     @Test
-    fun closeDialogShouldDismissTheDialogToAddTodo(){
+    fun deleteDialogShouldShowTheDialogToDeleteNote() {
+        val mockHomeView = Mockito.mock(HomeView::class.java)
+
+        val mainActivity = Mockito.mock(MainActivity::class.java)
+
+        Mockito.`when`(mainActivity.currentView()).thenReturn(mockHomeView)
+
+        val state = State(actions = Observable.just(Action.ShowDeletionDialog(Note("Hi"))))
+
+        viewUpdater().update(state, mainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        Mockito.verify(mockHomeView, Mockito.times(1))
+            .showDialogForNoteDeletion(mainActivity, Note("Hi"))
+
+    }
+
+    @Test
+    fun closeDialogShouldDismissTheDialogToAddTodo() {
         val mockHomeView = Mockito.mock(HomeView::class.java)
 
         val mainActivity = Mockito.mock(MainActivity::class.java)
@@ -60,7 +78,24 @@ class HomeViewUpdaterTest {
     }
 
     @Test
-    fun addNoteShouldAddTheNoteInTheView(){
+    fun closeDeletionDialogShouldDismissTheDeletionDialogToDeleteNote() {
+        val mockHomeView = Mockito.mock(HomeView::class.java)
+
+        val mainActivity = Mockito.mock(MainActivity::class.java)
+
+        Mockito.`when`(mainActivity.currentView()).thenReturn(mockHomeView)
+
+        val state = State(actions = Observable.just(Action.CloseDeletionDialog))
+
+        viewUpdater().update(state, mainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        Mockito.verify(mockHomeView, Mockito.times(1)).dismissDeletionDialog()
+
+    }
+
+    @Test
+    fun addNoteShouldAddTheNoteInTheView() {
 
         val note = Note("Hello")
         val mockHomeView = Mockito.mock(HomeView::class.java)
@@ -78,7 +113,26 @@ class HomeViewUpdaterTest {
     }
 
     @Test
-    fun showToastShowTellTheUserThatNoteAlreadyExists(){
+    fun deleteNoteShouldAddTheNoteFromTheView() {
+
+        val note = Note("Hi")
+        val mockHomeView = Mockito.mock(HomeView::class.java)
+
+        val mainActivity = Mockito.mock(MainActivity::class.java)
+
+        Mockito.`when`(mainActivity.currentView()).thenReturn(mockHomeView)
+
+        val state = State(actions = Observable.just(Action.DeleteNote(note)))
+
+        viewUpdater().update(state, mainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        Mockito.verify(mockHomeView, Mockito.times(1)).deleteNote(note)
+    }
+
+
+    @Test
+    fun showToastShowTellTheUserThatNoteAlreadyExists() {
 
         val mainActivity = Robolectric.setupActivity(MainActivity::class.java)
 
@@ -88,6 +142,19 @@ class HomeViewUpdaterTest {
         ShadowLooper.shadowMainLooper().runToEndOfTasks()
 
         Assert.assertEquals("Note already exists!", ShadowToast.getTextOfLatestToast())
+    }
+
+    @Test
+    fun showToastShowTellTheUserThatNoteDoesNotExists() {
+
+        val mainActivity = Robolectric.setupActivity(MainActivity::class.java)
+
+        val state = State(actions = Observable.just(Action.ShowDeletionErrorToast))
+
+        viewUpdater().update(state, mainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        Assert.assertEquals("Note does not exist!", ShadowToast.getTextOfLatestToast())
     }
 
 

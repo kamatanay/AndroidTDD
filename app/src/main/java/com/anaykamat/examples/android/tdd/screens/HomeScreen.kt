@@ -15,17 +15,21 @@ import com.anaykamat.examples.android.tdd.views.HomeView
 /**
  * Created by anay on 09/08/18.
  */
-class HomeScreen: Screen {
+class HomeScreen : Screen {
 
     private val events: PublishSubject<Event> = PublishSubject.create()
 
     override fun buildView(context: Context): View {
         return HomeView(context).also {
             it.eventsObservable().subscribe { event ->
-                when(event){
+                when (event) {
                     is HomeViewEvents.DialogDismissed -> events.onNext(Event.DialogCancelled)
                     is HomeViewEvents.NoteSubmitted -> events.onNext(Event.NoteSubmitted(event.note))
                     is HomeViewEvents.AddButtonClicked -> events.onNext(Event.AddButtonClicked)
+                    is HomeViewEvents.DeleteButtonCLicked -> {
+                        events.onNext(Event.DeleteButtonClicked)}
+                    HomeViewEvents.DeletionDialogDismissed -> events.onNext(Event.DeletionDialogCancelled)
+                    is HomeViewEvents.NoteDeleted -> events.onNext(Event.NoteDeleted(event.note))
                 }
             }
         }

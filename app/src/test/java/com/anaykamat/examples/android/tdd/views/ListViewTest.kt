@@ -25,15 +25,17 @@ class ListViewTest {
 
     }
 
-    private fun view(): ListView = ListView(RuntimeEnvironment.application.applicationContext).also {
-        it.layoutParams = ViewGroup.LayoutParams(SCREEN_WIDTH, SCREEN_HEIGHT)
-    }
+    private fun view(): ListView =
+        ListView(RuntimeEnvironment.application.applicationContext).also {
+            it.layoutParams = ViewGroup.LayoutParams(SCREEN_WIDTH, SCREEN_HEIGHT)
+        }
 
     @Test
-    fun itShouldInitialiseWithEmptyItems(){
+    fun itShouldInitialiseWithEmptyItems() {
         val view = view()
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
         Assert.assertEquals(0, view.childCount)
     }
@@ -43,16 +45,19 @@ class ListViewTest {
         val view = view()
         val noteText = "Do this"
         val note = Note(noteText)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         view.add(note)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         val textView = view.getChildAt(0) as TextView
 
         Assert.assertEquals(1, view.childCount)
         Assert.assertNotNull(textView)
-        Assert.assertEquals(ContextCompat.getColor(view.context, android.R.color.holo_blue_light), textView.currentTextColor)
+        Assert.assertEquals(ContextCompat.getColor(view.context, android.R.color.holo_blue_light),
+            textView.currentTextColor)
     }
 
     @Test
@@ -60,11 +65,13 @@ class ListViewTest {
         val view = view()
         val noteText = "Do this"
         val note = Note(noteText)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         view.add(note)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         val textView = view.getChildAt(0) as TextView
 
         Assert.assertEquals(1, view.childCount)
@@ -77,11 +84,13 @@ class ListViewTest {
         val view = view()
         val noteText = "Do this"
         val note = Note(noteText)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         view.add(note)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         val textView = view.getChildAt(0) as TextView
 
         Assert.assertEquals(1, view.childCount)
@@ -93,19 +102,51 @@ class ListViewTest {
     }
 
     @Test
-    fun itShouldAddAGivenNoteAsChild(){
+    fun itShouldAddAGivenNoteAsChild() {
         val noteText = "Do this"
         val note = Note(noteText)
 
         val view = view()
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
         view.add(note)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
         Assert.assertEquals(1, view.childCount)
         Assert.assertEquals(noteText, (view.getChildAt(0) as TextView).text)
+    }
+
+    @Test
+    fun itShouldDeleteAGivenNoteAsChild() {
+        val noteText = "Do this"
+        val note = Note(noteText)
+
+        val view = view()
+        //Add Note First
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.add(note)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        Assert.assertEquals(1, view.childCount)
+        Assert.assertEquals(noteText, (view.getChildAt(0) as TextView).text)
+
+        //Delete the added Note
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.delete(note)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
+        view.layout(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        Assert.assertEquals(0, view.childCount)
     }
 
 }
