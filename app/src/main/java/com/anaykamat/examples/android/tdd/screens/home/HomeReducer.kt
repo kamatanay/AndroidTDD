@@ -23,6 +23,10 @@ class HomeReducer: Reducer {
                 currentState.copy(actions = actions as Observable<Action>, notes = (currentState.notes + notes))
             }
             is Event.DialogCancelled -> currentState.copy(actions = Observable.fromIterable(listOf(Action.CloseDialog)))
+            is Event.NoteRemoveRequested -> currentState.copy(
+                    notes = currentState.notes.filterIndexed {index,_ -> index != event.position},
+                    actions = Observable.fromIterable(listOf(Action.RemoveNoteAt(event.position)))
+            )
             else -> currentState
         }
     }

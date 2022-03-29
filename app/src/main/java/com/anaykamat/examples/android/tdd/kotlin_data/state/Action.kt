@@ -12,6 +12,8 @@ sealed class Action {
     object ShowToast : Action()
     object ShowDialog: Action()
     data class AddNote(val note: Note): Action()
+    data class RemoveNoteAt(val position: Int): Action()
+
     object CloseDialog: Action()
 
 }

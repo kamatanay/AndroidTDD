@@ -29,6 +29,9 @@ class HomeViewUpdater: ViewUpdater {
                     activity.updateView(state.currentScreen.buildView(activity))
                 }
                 Action.ShowToast -> Toast.makeText(activity, "Note already exists!", Toast.LENGTH_SHORT).show()
+                is Action.RemoveNoteAt -> {
+                    (activity.currentView() as HomeView).removeNoteAt(action.position)
+                }
             }
         }
     }

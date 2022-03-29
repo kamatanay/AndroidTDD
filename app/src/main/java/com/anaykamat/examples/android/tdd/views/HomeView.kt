@@ -10,8 +10,10 @@ import com.anaykamat.examples.android.tdd.MainActivity
 import com.anaykamat.examples.android.tdd.R
 import com.anaykamat.examples.android.tdd.kotlin_data.events.DialogEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.events.HomeViewEvents
+import com.anaykamat.examples.android.tdd.kotlin_data.events.ListViewEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.view_home.view.*
 
 /**
  * Created by anay on 09/08/18.
@@ -42,6 +44,12 @@ open class HomeView: LinearLayout {
             }
         }
 
+        findViewById<ListView>(R.id.list_view).eventsObservable().subscribe {
+            when(it){
+                is ListViewEvents.RemoveNote -> events.onNext(HomeViewEvents.RemoveNote(it.position))
+            }
+        }
+
     }
 
     open fun add(note: Note){
@@ -54,5 +62,9 @@ open class HomeView: LinearLayout {
 
     open fun dismissDialog() {
         inputDialog.dismiss()
+    }
+
+    open fun removeNoteAt(position: Int) {
+        findViewById<ListView>(R.id.list_view).removeNoteAt(position)
     }
 }

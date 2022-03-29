@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
 import io.reactivex.Observable
 import junit.framework.Assert
 import org.junit.Test
@@ -105,6 +105,59 @@ class HomeViewTest {
         view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
         Assert.assertEquals(noteText, (view.findViewById<ListView>(R.id.list_view).getChildAt(0) as NoteView).text)
+    }
+
+    @Test
+    fun itShouldAllowRemovingNoteFromGivenPosition(){
+        val view = view()
+
+        val noteText = "Do this"
+        val note = Note(noteText)
+
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
+        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        view.add(note)
+
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
+        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        view.removeNoteAt(0)
+
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
+        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
+        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        Assert.assertEquals(0, view.findViewById<ListView>(R.id.list_view).childCount)
+    }
+
+    @Test
+    fun itShouldRaiseTheEventOnRemoveRequestOfNote(){
+        val view = view()
+
+        val noteText = "Do this"
+        val note = Note(noteText)
+
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
+        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        view.add(note)
+
+        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
+        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        Observable.create<Unit> { emitter ->
+            view.eventsObservable().subscribe { event ->
+                if (event != HomeViewEvents.RemoveNote(position = 0)) return@subscribe
+                emitter.onNext(Unit)
+                emitter.onComplete()
+            }
+            val listView = view.findViewById<ListView>(R.id.list_view)
+            listView.getChildAt(0).findViewWithTag<Button>("Remove").performClick()
+        }.timeout(5, TimeUnit.SECONDS).blockingFirst()
+
     }
 
     @Test

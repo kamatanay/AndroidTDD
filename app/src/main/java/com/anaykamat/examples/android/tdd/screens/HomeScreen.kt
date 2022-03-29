@@ -26,6 +26,7 @@ class HomeScreen: Screen {
                     is HomeViewEvents.DialogDismissed -> events.onNext(Event.DialogCancelled)
                     is HomeViewEvents.NoteSubmitted -> events.onNext(Event.NoteSubmitted(event.note))
                     is HomeViewEvents.AddButtonClicked -> events.onNext(Event.AddButtonClicked)
+                    is HomeViewEvents.RemoveNote -> events.onNext(Event.NoteRemoveRequested(event.position))
                 }
             }
         }

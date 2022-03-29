@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.anaykamat.examples.android.tdd.R
 import com.anaykamat.examples.android.tdd.kotlin_data.events.ListViewEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
 import io.reactivex.Observable
@@ -56,6 +57,12 @@ class ListView: RecyclerView {
             notifyDataSetChanged()
         }
 
+        fun removeAt(position: Int){
+            listItems.removeAt(position)
+            notifyDataSetChanged()
+
+        }
+
     }
 
     init {
@@ -67,5 +74,8 @@ class ListView: RecyclerView {
         viewAdapter.add(note)
     }
 
+    fun removeNoteAt(position: Int) {
+        viewAdapter.removeAt(position)
+    }
 
 }

@@ -78,6 +78,24 @@ class HomeViewUpdaterTest {
     }
 
     @Test
+    fun removeNoteAtShouldRemoveTheNoteInTheView(){
+
+        val note = Note("Hello")
+        val mockHomeView = Mockito.mock(HomeView::class.java)
+
+        val mainActivity = Mockito.mock(MainActivity::class.java)
+
+        Mockito.`when`(mainActivity.currentView()).thenReturn(mockHomeView)
+
+        val state = State(actions = Observable.just(Action.RemoveNoteAt(0)))
+
+        viewUpdater().update(state, mainActivity)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        Mockito.verify(mockHomeView, Mockito.times(1)).removeNoteAt(0)
+    }
+
+    @Test
     fun showToastShowTellTheUserThatNoteAlreadyExists(){
 
         val mainActivity = Robolectric.setupActivity(MainActivity::class.java)

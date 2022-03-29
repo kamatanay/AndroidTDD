@@ -11,6 +11,7 @@ sealed class Event {
     object DataLoaded: Event()
     object AddButtonClicked : Event()
     data class NoteSubmitted(val note: Note) : Event()
+    data class NoteRemoveRequested(val position: Int) : Event()
     object DialogCancelled : Event()
 
 }
