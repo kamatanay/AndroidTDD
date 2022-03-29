@@ -104,7 +104,7 @@ class HomeViewTest {
         view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
         view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
-        Assert.assertEquals(noteText, (view.findViewById<ListView>(R.id.list_view).getChildAt(0) as TextView).text)
+        Assert.assertEquals(noteText, (view.findViewById<ListView>(R.id.list_view).getChildAt(0) as NoteView).text)
     }
 
     @Test

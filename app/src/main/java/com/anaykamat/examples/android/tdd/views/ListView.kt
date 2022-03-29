@@ -2,14 +2,14 @@ package com.anaykamat.examples.android.tdd.views
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.anaykamat.examples.android.tdd.kotlin_data.events.ListViewEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 /**
  * Created by anay on 09/08/18.
@@ -21,9 +21,16 @@ class ListView: RecyclerView {
 
     private val listItems: ArrayList<Note> = ArrayList()
 
-    private class ViewHolder(private val view: View):RecyclerView.ViewHolder(view) {
-        fun update(note:Note){
+    private val events: PublishSubject<ListViewEvents> = PublishSubject.create()
+
+    fun eventsObservable(): Observable<ListViewEvents> = events.hide().share()
+
+    private class ViewHolder(private val view: View, val events: PublishSubject<ListViewEvents>):RecyclerView.ViewHolder(view) {
+        fun update(note: Note, position: Int){
             (view as NoteView).text = note.note
+            (view as NoteView).eventsObservable().subscribe{
+                events.onNext(ListViewEvents.RemoveNote(position = position, note = note.note))
+            }
         }
 
     }
@@ -33,14 +40,15 @@ class ListView: RecyclerView {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             listItems[position]?.let {
-                holder?.update(it)
+                holder?.update(it, position)
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = NoteView(parent.context)
+            view.layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             view.setPadding(100,50,100,50)
-            return ViewHolder(view)
+            return ViewHolder(view, events)
         }
 
         fun add(content: Note) {
