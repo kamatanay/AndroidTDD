@@ -133,4 +133,44 @@ class ListViewTest {
 
     }
 
+    @Test
+    fun itShouldRaiseOnlyOneRemoveEventForEveryNoteRemoveClick(){
+        val note = Note("Do this")
+
+        val noteText = "Do this again"
+        val noteAgain = Note(noteText)
+
+        val view = view()
+        view.add(note)
+        view.measure(0,0)
+        view.layout(0,0, SCREEN_WIDTH, 5000)
+        view.measure(0,0)
+        view.layout(0,0, SCREEN_WIDTH, 5000)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        view.add(noteAgain)
+        view.measure(0,0)
+        view.layout(0,0, SCREEN_WIDTH, 5000)
+        view.measure(0,0)
+        view.layout(0,0, SCREEN_WIDTH, 5000)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        view.add(Note("dumdum"))
+        view.measure(0,0)
+        view.layout(0,0, SCREEN_WIDTH, 5000)
+        view.measure(0,0)
+        view.layout(0,0, SCREEN_WIDTH, 5000)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        val events = Observable.create<Unit> { emitter ->
+            view.eventsObservable().subscribe { event ->
+                emitter.onNext(Unit)
+            }
+            (view.getChildAt(0) as NoteView).findViewWithTag<Button>("Remove").performClick()
+        }.take(5, TimeUnit.SECONDS).toList().blockingGet()
+
+        Assert.assertEquals(1, events.size)
+
+    }
+
 }

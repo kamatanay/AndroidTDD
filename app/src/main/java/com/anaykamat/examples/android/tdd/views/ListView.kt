@@ -10,6 +10,7 @@ import com.anaykamat.examples.android.tdd.R
 import com.anaykamat.examples.android.tdd.kotlin_data.events.ListViewEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 
 /**
@@ -27,11 +28,20 @@ class ListView: RecyclerView {
     fun eventsObservable(): Observable<ListViewEvents> = events.hide().share()
 
     private class ViewHolder(private val view: View, val events: PublishSubject<ListViewEvents>):RecyclerView.ViewHolder(view) {
+
+        val disposableMap = HashMap<View,Disposable>()
+
         fun update(note: Note, position: Int){
             (view as NoteView).text = note.note
-            (view as NoteView).eventsObservable().subscribe{
+            disposableMap.get(view)?.also {
+                it.dispose()
+                disposableMap.remove(view)
+            }
+
+            val disposable = (view as NoteView).eventsObservable().subscribe {
                 events.onNext(ListViewEvents.RemoveNote(position = position, note = note.note))
             }
+            disposableMap[view] = disposable
         }
 
     }
