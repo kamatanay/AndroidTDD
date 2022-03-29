@@ -38,39 +38,6 @@ class ListViewTest {
         Assert.assertEquals(0, view.childCount)
     }
 
-    @Test
-    fun itShouldVerifyGiveColorToTextView() {
-        val view = view()
-        val noteText = "Do this"
-        val note = Note(noteText)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
-        view.add(note)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
-        val textView = view.getChildAt(0) as TextView
-
-        Assert.assertEquals(1, view.childCount)
-        Assert.assertNotNull(textView)
-        Assert.assertEquals(ContextCompat.getColor(view.context, android.R.color.holo_blue_light), textView.currentTextColor)
-    }
-
-    @Test
-    fun itShouldVerifyGiveTextSizeToTextView() {
-        val view = view()
-        val noteText = "Do this"
-        val note = Note(noteText)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
-        view.add(note)
-        view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
-        view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
-        val textView = view.getChildAt(0) as TextView
-
-        Assert.assertEquals(1, view.childCount)
-        Assert.assertNotNull(textView)
-        Assert.assertEquals(24f, textView.textSize)
-    }
 
     @Test
     fun itShouldVerifyGiveTextPaddingSetToTextView() {
@@ -82,7 +49,7 @@ class ListViewTest {
         view.add(note)
         view.measure(View.MeasureSpec.makeMeasureSpec(SCREEN_WIDTH, EXACTLY), View.MeasureSpec.makeMeasureSpec(SCREEN_HEIGHT, EXACTLY))
         view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
-        val textView = view.getChildAt(0) as TextView
+        val textView = view.getChildAt(0) as NoteView
 
         Assert.assertEquals(1, view.childCount)
         Assert.assertNotNull(textView)
@@ -105,7 +72,7 @@ class ListViewTest {
         view.layout(0,0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
         Assert.assertEquals(1, view.childCount)
-        Assert.assertEquals(noteText, (view.getChildAt(0) as TextView).text)
+        Assert.assertEquals(noteText, (view.getChildAt(0) as NoteView).text)
     }
 
 }

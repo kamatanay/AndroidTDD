@@ -23,7 +23,7 @@ class ListView: RecyclerView {
 
     private class ViewHolder(private val view: View):RecyclerView.ViewHolder(view) {
         fun update(note:Note){
-            (view as TextView).text = note.note
+            (view as NoteView).text = note.note
         }
 
     }
@@ -38,9 +38,7 @@ class ListView: RecyclerView {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = TextView(parent.context)
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
-            view.setTextColor(ContextCompat.getColor(context, android.R.color.holo_blue_light))
+            val view = NoteView(parent.context)
             view.setPadding(100,50,100,50)
             return ViewHolder(view)
         }
