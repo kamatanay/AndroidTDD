@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import io.reactivex.Observable
@@ -17,6 +18,7 @@ import org.robolectric.Robolectric
 import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowDialog
 import com.anaykamat.examples.android.tdd.kotlin_data.events.HomeViewEvents
+import com.anaykamat.examples.android.tdd.kotlin_data.events.NoteViewEvents
 import com.anaykamat.examples.android.tdd.kotlin_data.models.Note
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.robolectric.shadows.ShadowLooper
@@ -52,7 +54,6 @@ class NoteViewTest {
         view.layout(0,0, NoteViewTest.SCREEN_WIDTH, NoteViewTest.SCREEN_HEIGHT)
         val textView = view.getChildAt(0) as TextView
 
-        Assert.assertEquals(1, view.childCount)
         Assert.assertNotNull(textView)
         Assert.assertEquals(ContextCompat.getColor(view.context, android.R.color.holo_blue_light), textView.currentTextColor)
     }
@@ -65,8 +66,40 @@ class NoteViewTest {
         view.layout(0,0, NoteViewTest.SCREEN_WIDTH, NoteViewTest.SCREEN_HEIGHT)
         val textView = view.getChildAt(0) as TextView
 
-        Assert.assertEquals(1, view.childCount)
         Assert.assertNotNull(textView)
         Assert.assertEquals(24f, textView.textSize)
+    }
+
+    @Test
+    fun itShouldHaveAButtonToRemoveTheNote() {
+        val view = view()
+        view.text = "Do this"
+        view.measure(View.MeasureSpec.makeMeasureSpec(NoteViewTest.SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(NoteViewTest.SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
+        view.layout(0,0, NoteViewTest.SCREEN_WIDTH, NoteViewTest.SCREEN_HEIGHT)
+
+        val button = view.getChildAt(1) as Button
+
+        Assert.assertNotNull(button)
+        Assert.assertEquals("Remove", button.text)
+        Assert.assertEquals("Remove", button.tag)
+    }
+
+    @Test
+    fun itShouldRaiseTheEventOnClickOfRemoveButton(){
+        val view = view()
+        view.text = "Do this"
+        view.measure(View.MeasureSpec.makeMeasureSpec(NoteViewTest.SCREEN_WIDTH, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(NoteViewTest.SCREEN_HEIGHT, View.MeasureSpec.EXACTLY))
+        view.layout(0,0, NoteViewTest.SCREEN_WIDTH, NoteViewTest.SCREEN_HEIGHT)
+        ShadowLooper.shadowMainLooper().runToEndOfTasks()
+
+        Observable.create<Unit> { emitter ->
+            view.eventsObservable().subscribe { event ->
+                if (!(event is NoteViewEvents.RemoveClicked)) return@subscribe
+                emitter.onNext(Unit)
+                emitter.onComplete()
+            }
+            view.findViewWithTag<Button>("Remove").performClick()
+        }.timeout(5, TimeUnit.SECONDS).blockingFirst()
+
     }
 }
